@@ -1,6 +1,6 @@
 {
   "name": "@msnraju/nav-split-object-file",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,7 @@
     "cli", "nav", "business central","nav-split-object-file", "msn raju"
   ],
   "author": "MSN Raju",
-  "license": "ISC",
-  "git": "",
+  "license": "MIT",
   "homepage": "https://github.com/msnraju/nav-tools#readme",
   "repository": {
     "type" : "git",
