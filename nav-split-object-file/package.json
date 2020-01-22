@@ -1,6 +1,6 @@
 {
   "name": "@msnraju/nav-split-object-file",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -16,6 +16,15 @@
   "keywords": [],
   "author": "MSN Raju",
   "license": "ISC",
+  "git": "",
+  "homepage": "https://github.com/msnraju/nav-tools#readme",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/msnraju/nav-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/msnraju/nav-tools/issues"
+  },
   "devDependencies": {
     "@types/inquirer": "^6.5.0",
     "@types/node": "^13.1.8",
