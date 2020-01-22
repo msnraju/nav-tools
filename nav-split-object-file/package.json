@@ -1,0 +1,33 @@
+{
+  "name": "@msnraju/nav-split-object-file",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc --outDir bin",
+    "dev": "tsc -w --outDir bin",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "@msnraju/nav-split-object-file": "./bin/main.js",
+    "nav-split-object-file": "./bin/main.js",
+    "nav-SplitObjectFile": "./bin/main.js"
+  },
+  "keywords": [],
+  "author": "MSN Raju",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/inquirer": "^6.5.0",
+    "@types/node": "^13.1.8",
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/cli-progress": "^3.4.1",
+    "@types/figlet": "^1.2.0",
+    "@types/n-readlines": "^1.0.0",
+    "arg": "^4.1.2",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.3",
+    "n-readlines": "^1.0.0"
+  }
+}
