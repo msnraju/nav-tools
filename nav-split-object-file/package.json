@@ -1,6 +1,6 @@
 {
   "name": "@msnraju/nav-split-object-file",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,9 @@
     "nav-split-object-file": "./bin/main.js",
     "nav-SplitObjectFile": "./bin/main.js"
   },
-  "keywords": [],
+  "keywords": [
+    "cli", "nav", "business central","nav-split-object-file"
+  ],
   "author": "MSN Raju",
   "license": "ISC",
   "git": "",
