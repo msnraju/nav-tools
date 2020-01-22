@@ -1,5 +1,5 @@
 # nav-split-object-file
-Command line utility to split object file into multiple files.
+Command line utility to split Dynamics NAV object file into multiple files.
 
 
 ## Installation

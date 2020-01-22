@@ -5,7 +5,6 @@ import fs, { WriteStream } from "fs";
 export default class ObjectSplitter {
     static async splitObjectFile(options: ISplitOptions) {
         // OBJECT Table 3 Payment Terms
-        console.log('Reading ...')
         const headerExpr = /OBJECT (\w*) (\d*) (.*)/;
         let buffer: Buffer | false;
         const liner = new LineByLine(options.sourceFile);
@@ -27,8 +26,19 @@ export default class ObjectSplitter {
                         throw `Invalid file header: '${line}'`;
                     }
 
-                    destinationFile = `${options.destinationFolder}/${match[1].toUpperCase()}_${match[2]}.txt`;
+                    if (options.objectTypeWiseFolders) {
+                        const destinationFolder = `${options.destinationFolder}/${match[1]}`;
+                        if (!fs.existsSync(destinationFolder)) {
+                            fs.mkdirSync(destinationFolder);
+                        }
+
+                        destinationFile = `${destinationFolder}/${match[1].toUpperCase()}_${match[2]}.txt`;
+                    } else {
+                        destinationFile = `${options.destinationFolder}/${match[1].toUpperCase()}_${match[2]}.txt`;
+                    }
+
                     outFile = fs.createWriteStream(destinationFile);
+
                     stage = 'OPEN';
                     break;
                 case 'OPEN':

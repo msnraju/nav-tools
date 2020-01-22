@@ -1,6 +1,6 @@
 {
   "name": "@msnraju/nav-split-object-file",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -14,27 +14,29 @@
     "nav-SplitObjectFile": "./bin/main.js"
   },
   "keywords": [
-    "cli", "nav", "business central","nav-split-object-file", "msn raju"
+    "cli",
+    "dynamics nav",
+    "business central",
+    "nav-split-object-file"
   ],
   "author": "MSN Raju",
   "license": "MIT",
   "homepage": "https://github.com/msnraju/nav-tools#readme",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/msnraju/nav-tools.git"
+    "type": "git",
+    "url": "https://github.com/msnraju/nav-tools.git"
   },
   "bugs": {
     "url": "https://github.com/msnraju/nav-tools/issues"
   },
   "devDependencies": {
+    "@types/figlet": "^1.2.0",
     "@types/inquirer": "^6.5.0",
+    "@types/n-readlines": "^1.0.0",
     "@types/node": "^13.1.8",
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@types/cli-progress": "^3.4.1",
-    "@types/figlet": "^1.2.0",
-    "@types/n-readlines": "^1.0.0",
     "arg": "^4.1.2",
     "figlet": "^1.2.4",
     "inquirer": "^7.0.3",
