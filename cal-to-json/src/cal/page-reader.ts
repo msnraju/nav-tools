@@ -53,7 +53,7 @@ export default class PageReader {
     const SEGMENTS_HEADER_BODY_EXPR = /\r?\n\}|\r?\n\{/;
     let lines = input.split(SEGMENTS_HEADER_BODY_EXPR);
     input =
-      lines.length == 2 ? StringHelper.remove2SpaceIndentation(lines[1]) : '';
+      lines.length === 2 ? StringHelper.remove2SpaceIndentation(lines[1]) : '';
 
     const actions: Array<IPageAction> = [];
     lines = StringHelper.groupLines(input);
