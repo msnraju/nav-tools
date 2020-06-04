@@ -1,24 +1,24 @@
-import StringHelper from "../util/string-helper";
-import IReportDataItem, { ReportDataItem } from "../models/report-data-item";
-import PropertyReader from "./property-reader";
-import PropertyMap from "./property-map";
-import ObjectReader from "./object-reader";
-import IReportLabel, { ReportLabel } from "../models/report-label";
+import StringHelper from '../util/string-helper';
+import IReportDataItem, { ReportDataItem } from '../models/report-data-item';
+import PropertyReader from './property-reader';
+import PropertyMap from './property-map';
+import ObjectReader from './object-reader';
+import IReportLabel, { ReportLabel } from '../models/report-label';
 
 export default class ReportReader {
   static readSegment(name: string, input: string) {
     switch (name) {
-      case "PROPERTIES":
+      case 'PROPERTIES':
         return PropertyReader.read(input, PropertyMap.reportProperties);
-      case "DATASET":
+      case 'DATASET':
         return this.readDataSet(input);
-      case "REQUESTPAGE":
+      case 'REQUESTPAGE':
         return this.readRequestPage(input);
-      case "LABELS":
+      case 'LABELS':
         return this.readLabels(input);
-      case "RDLDATA":
+      case 'RDLDATA':
         return input;
-      case "WORDLAYOUT":
+      case 'WORDLAYOUT':
         return this.readWordLayout(input);
       default:
         throw new TypeError(`Report's segment type '${name}' not implemented.`);
@@ -35,7 +35,7 @@ export default class ReportReader {
 
     while (current < lines.length) {
       const line = lines[current++];
-      if (line == "END_OF_WORDLAYOUT") break;
+      if (line === 'END_OF_WORDLAYOUT') break;
 
       lines2.push(line);
     }
@@ -68,9 +68,9 @@ export default class ReportReader {
     const id = Number(match[1]);
     const name = match[2];
 
-    let properties = match[4] || "";
-    properties = properties.replace(/^[ ]{28}/, "");
-    properties = properties.replace(/\r?\n[ ]{28}/g, "\r\n");
+    let properties = match[4] || '';
+    properties = properties.replace(/^[ ]{28}/, '');
+    properties = properties.replace(/\r?\n[ ]{28}/g, '\r\n');
     const props = PropertyReader.read(properties, PropertyMap.reportLabel);
 
     return new ReportLabel(id, name, props);
@@ -78,7 +78,7 @@ export default class ReportReader {
 
   private static readRequestPage(input: string) {
     input = StringHelper.remove2SpaceIndentation(input);
-    return ObjectReader.splitSegments("Page", input);
+    return ObjectReader.splitSegments('Page', input);
   }
 
   private static readDataSet(input: string) {
@@ -109,8 +109,8 @@ export default class ReportReader {
     const name = match[4] || undefined;
 
     let properties = match[5];
-    properties = properties.replace(/^[ ]{11}/, "");
-    properties = properties.replace(/\r?\n[ ]{11}/g, "\r\n");
+    properties = properties.replace(/^[ ]{11}/, '');
+    properties = properties.replace(/\r?\n[ ]{11}/g, '\r\n');
     const props = PropertyReader.read(properties, PropertyMap.reportDataItem);
 
     return new ReportDataItem(id, dataType, name, indentation, props);

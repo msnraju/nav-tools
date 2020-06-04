@@ -1,11 +1,11 @@
-import StringBuffer from "../util/string-buffer";
-import VariableReader from "./variable-reader";
-import StringHelper from "../util/string-helper";
-import AttributeReader from "./attribute-reader";
-import { Event } from "../models/event";
-import { IProcedure, Procedure } from "../models/procedure";
-import { IParameter, Paramter } from "../models/parameter";
-import { IReturnType, ReturnType } from "../models/return-type";
+import StringBuffer from '../util/string-buffer';
+import VariableReader from './variable-reader';
+import StringHelper from '../util/string-helper';
+import AttributeReader from './attribute-reader';
+import { Event } from '../models/event';
+import { IProcedure, Procedure } from '../models/procedure';
+import { IParameter, Paramter } from '../models/parameter';
+import { IReturnType, ReturnType } from '../models/return-type';
 
 export default class ProcedureReader {
   static readMultiple(input: Array<string>): Array<IProcedure> | undefined {
@@ -96,14 +96,14 @@ export default class ProcedureReader {
     const match = PROCEDURE_EXPR.exec(input);
     if (!match) throw new Error(`Invalid Procedure: ${input}`);
 
-    const event = match[2] == "EVENT ";
-    const eventVariable = StringHelper.escapeDoubleQuoteString(match[3] || "");
+    const event = match[2] === 'EVENT ';
+    const eventVariable = StringHelper.escapeDoubleQuoteString(match[3] || '');
     const eventVariableId = Number(match[4] || 0);
-    const local = match[6] == "LOCAL " ? true : undefined;
-    const name = StringHelper.escapeDoubleQuoteString(match[7] || "");
+    const local = match[6] === 'LOCAL ' ? true : undefined;
+    const name = StringHelper.escapeDoubleQuoteString(match[7] || '');
     const id = Number(match[8] || 0);
-    const parameters = this.readParameters(match[9] || "");
-    const returns = this.readReturns(match[10] || "");
+    const parameters = this.readParameters(match[9] || '');
+    const returns = this.readReturns(match[10] || '');
 
     const attributes = AttributeReader.readMultiple(attributesText);
     const variables = VariableReader.readMultiple(variablesText);
@@ -147,9 +147,9 @@ export default class ProcedureReader {
     const match = RETURN_EXPR.exec(input);
     if (!match) throw new Error(`Invalid return type: ${input}`);
 
-    const name = StringHelper.escapeDoubleQuoteString(match[1] || "");
+    const name = StringHelper.escapeDoubleQuoteString(match[1] || '');
     const datatype = match[2];
-    const length = Number(match[4] || "0");
+    const length = Number(match[4] || '0');
 
     return new ReturnType(name || undefined, datatype, length || undefined);
   }
@@ -159,7 +159,7 @@ export default class ProcedureReader {
     if (!input) return parameters;
 
     const PARAM_EXPR = /(VAR )?([^@]*|".*")@(-?\d*) : (ARRAY \[([\d,]*)\] OF )?(TEMPORARY )?(\w*\[\d*\]|\w*|'.*?';)?( ([^;]*))?;?/g;
-    const params = (input + ";").match(PARAM_EXPR);
+    const params = (input + ';').match(PARAM_EXPR);
     if (!params) throw new Error(`Invalid Parameters: ${input}`);
 
     const VAR_EXPR = /(VAR )?(.*)/;

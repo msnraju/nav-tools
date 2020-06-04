@@ -1,5 +1,5 @@
-import IBaseClass, { BaseClass } from "./base-class";
-import { IProperty } from "../cal/property-map";
+import IBaseClass, { BaseClass } from './base-class';
+import { IProperty } from '../cal/property-map';
 
 export default interface ITableField extends IBaseClass {
   id: number;
@@ -23,7 +23,7 @@ export class TableField extends BaseClass implements ITableField {
     dataType: string,
     properties: Array<IProperty> | undefined
   ) {
-    super("TableField");
+    super('TableField');
     this.id = id;
     this.enabled = enabled;
     this.name = name;

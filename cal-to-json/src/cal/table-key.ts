@@ -1,5 +1,5 @@
-import IBaseClass, { BaseClass } from "../models/base-class";
-import { IProperty } from "./property-map";
+import IBaseClass, { BaseClass } from '../models/base-class';
+import { IProperty } from './property-map';
 
 export default interface ITableKey extends IBaseClass {
   enabled: boolean;
@@ -17,7 +17,7 @@ export class TableKey extends BaseClass implements ITableKey {
     fields: Array<string>,
     properties: Array<IProperty> | undefined
   ) {
-    super("TableKey");
+    super('TableKey');
     this.enabled = enabled;
     this.fields = fields;
     this.properties = properties;

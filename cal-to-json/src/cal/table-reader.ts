@@ -1,21 +1,21 @@
-import FieldListReader from "./field-list-reader";
-import StringHelper from "../util/string-helper";
-import PropertyReader from "./property-reader";
-import PropertyMap from "./property-map";
-import ITableField, { TableField } from "../models/table-field";
-import IFieldGroup, { FieldGroup } from "../models/field-group";
-import ITableKey, { TableKey } from "./table-key";
+import FieldListReader from './field-list-reader';
+import StringHelper from '../util/string-helper';
+import PropertyReader from './property-reader';
+import PropertyMap from './property-map';
+import ITableField, { TableField } from '../models/table-field';
+import IFieldGroup, { FieldGroup } from '../models/field-group';
+import ITableKey, { TableKey } from './table-key';
 
 export default class TableReader {
   static readSegment(name: string, input: string) {
     switch (name) {
-      case "PROPERTIES":
+      case 'PROPERTIES':
         return PropertyReader.read(input, PropertyMap.tableProperties);
-      case "FIELDS":
+      case 'FIELDS':
         return this.getFields(input);
-      case "FIELDGROUPS":
+      case 'FIELDGROUPS':
         return this.getFieldGroups(input);
-      case "KEYS":
+      case 'KEYS':
         return this.getKeys(input);
       default:
         throw new TypeError(`Invalid segment type'${name}'`);
@@ -45,17 +45,17 @@ export default class TableReader {
 
     const id = Number(match[1]);
     const enabled =
-      match[2] == "No"
+      match[2] === 'No'
         ? false
-        : match[2] == "Yes" || match[2] == ""
+        : match[2] === 'Yes' || match[2] === ''
         ? undefined
         : false;
     const name = StringHelper.unescapeBrackets(match[3]);
     const datatype = match[4];
 
-    let properties = match[6] || "";
-    properties = properties.replace(/^[ ]{47}/, "");
-    properties = properties.replace(/\r?\n[ ]{47}/g, "\r\n");
+    let properties = match[6] || '';
+    properties = properties.replace(/^[ ]{47}/, '');
+    properties = properties.replace(/\r?\n[ ]{47}/g, '\r\n');
     const props = PropertyReader.read(properties, PropertyMap.tableField);
 
     return new TableField(id, enabled, name, datatype, props);
@@ -113,15 +113,15 @@ export default class TableReader {
     if (!match) throw new Error(`Invalid key '${input}'`);
 
     const enabled =
-      match[1] == "No"
+      match[1] === 'No'
         ? false
-        : match[1] == "Yes" || match[1] == ""
+        : match[1] === 'Yes' || match[1] === ''
         ? true
         : false;
     const fields = FieldListReader.read(match[2]);
-    let properties = match[4] || "";
-    properties = properties.replace(/^[ ]{47}/, "");
-    properties = properties.replace(/\r?\n[ ]{47}/g, "\r\n");
+    let properties = match[4] || '';
+    properties = properties.replace(/^[ ]{47}/, '');
+    properties = properties.replace(/\r?\n[ ]{47}/g, '\r\n');
     const props = PropertyReader.read(properties, PropertyMap.tableKey);
 
     return new TableKey(enabled, fields, props);

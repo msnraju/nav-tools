@@ -1,5 +1,5 @@
-import IBaseClass, { BaseClass } from "../models/base-class";
-import StringHelper from "../util/string-helper";
+import IBaseClass, { BaseClass } from '../models/base-class';
+import StringHelper from '../util/string-helper';
 
 export interface IAttribute extends IBaseClass {
   type: string;
@@ -9,7 +9,7 @@ export class Attribute extends BaseClass implements IAttribute {
   type: string;
 
   constructor(type: string) {
-    super("Attribute");
+    super('Attribute');
     this.type = type;
   }
 }
@@ -25,7 +25,7 @@ export class IntegrationAttribute extends Attribute
   globalVarAccess: boolean;
 
   constructor(includeSender: boolean, globalVarAccess: boolean) {
-    super("Integration");
+    super('Integration');
 
     this.includeSender = includeSender;
     this.globalVarAccess = globalVarAccess;
@@ -40,7 +40,7 @@ export class BusinessAttribute extends Attribute implements IBusinessAttribute {
   includeSender: boolean;
 
   constructor(includeSender: boolean) {
-    super("Business");
+    super('Business');
 
     this.includeSender = includeSender;
   }
@@ -71,7 +71,7 @@ export class EventSubscriberAttribute extends Attribute {
     onMissingLicense: string,
     onMissingPermission: string
   ) {
-    super("EventSubscriber");
+    super('EventSubscriber');
     this.publisherObjectType = publisherObjectType;
     this.publisherObjectId = publisherObjectId;
     this.eventFunction = eventFunction;
@@ -107,34 +107,34 @@ export default class AttributeReader {
     let match = ATTRIBUTE_EXPR.exec(input);
     if (!match) throw new Error(`Invalid attribute: ${input}`);
     const type = match[1];
-    const params = match[3] || "";
+    const params = match[3] || '';
     switch (type) {
-      case "Integration":
+      case 'Integration':
         let includeSender = false;
         let globalVarAccess = false;
         if (params) {
           match = /(\w*)(,(\w*))?/.exec(params);
           if (!match) throw new Error(`Invalid attribute: ${input}`);
-          includeSender = match[1] == "TRUE";
-          globalVarAccess = match[3] == "TRUE";
+          includeSender = match[1] === 'TRUE';
+          globalVarAccess = match[3] === 'TRUE';
         }
 
         return new IntegrationAttribute(includeSender, globalVarAccess);
-      case "Business":
+      case 'Business':
         let includeSender2 = false;
         if (params) {
           match = /(\w*)?/.exec(params);
           if (!match) throw new Error(`Invalid attribute: ${input}`);
-          includeSender2 = match[1] == "TRUE";
+          includeSender2 = match[1] === 'TRUE';
         }
         return new BusinessAttribute(includeSender2);
-      case "EventSubscriber":
-        let publisherObjectType = "";
+      case 'EventSubscriber':
+        let publisherObjectType = '';
         let publisherObjectId = 0;
-        let eventFunction = "";
-        let publisherElement = "";
-        let onMissingLicense = "";
-        let onMissingPermission = "";
+        let eventFunction = '';
+        let publisherElement = '';
+        let onMissingLicense = '';
+        let onMissingPermission = '';
         if (params) {
           match = /(\w*),(\d*),(".*"|\w*)(,(".*"|\w*))?(,(\w*))?(,(\w*))?/.exec(
             params
@@ -144,10 +144,10 @@ export default class AttributeReader {
           publisherObjectId = Number(match[2] || 0);
           eventFunction = StringHelper.unescapeDoubleQuoteString(match[3]);
           publisherElement = StringHelper.unescapeDoubleQuoteString(
-            match[5] || ""
+            match[5] || ''
           );
-          onMissingLicense = match[7] || "";
-          onMissingPermission = match[9] || "";
+          onMissingLicense = match[7] || '';
+          onMissingPermission = match[9] || '';
         }
 
         return new EventSubscriberAttribute(
@@ -158,15 +158,14 @@ export default class AttributeReader {
           onMissingLicense,
           onMissingPermission
         );
-      case "TryFunction":
-      case "External":
-      case "Internal":
-      case "Test":
-      case "ServiceEnabled":
+      case 'TryFunction':
+      case 'External':
+      case 'Internal':
+      case 'Test':
+      case 'ServiceEnabled':
         if (params) throw new Error(`Invalid attribute: ${input}`);
 
         return new Attribute(type);
-        break;
       default:
         throw new Error(`Invalid attribute: ${input}`);
     }

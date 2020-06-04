@@ -1,5 +1,5 @@
-import IBaseClass, { BaseClass } from "./base-class";
-import { IProperty } from "../cal/property-map";
+import IBaseClass, { BaseClass } from './base-class';
+import { IProperty } from '../cal/property-map';
 
 export default interface IReportLabel extends IBaseClass {
   id: number;
@@ -17,7 +17,7 @@ export class ReportLabel extends BaseClass implements IReportLabel {
     name: string,
     properties: Array<IProperty> | undefined
   ) {
-    super("ReportLabel");
+    super('ReportLabel');
     this.id = id;
     this.name = name;
     this.properties = properties;

@@ -1,11 +1,11 @@
 export default class StringBuffer {
-    private buffer: string[] = [];
+  private buffer: string[] = [];
 
-    append(line: string) {
-        this.buffer.push(line);
-    }
+  append(line: string) {
+    this.buffer.push(line);
+  }
 
-    toString() {
-        return this.buffer.join('\n');
-    }
+  toString() {
+    return this.buffer.join('\n');
+  }
 }

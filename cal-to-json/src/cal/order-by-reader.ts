@@ -1,48 +1,44 @@
-import IBaseClass, { BaseClass } from "../models/base-class";
-import TokenStream from "../util/token-stream";
-import StringTokenizer from "../util/string-tokenizer";
-import { TokenType } from "../util/token-model";
+import IBaseClass, { BaseClass } from '../models/base-class';
+import TokenStream from '../util/token-stream';
+import StringTokenizer from '../util/string-tokenizer';
+import { TokenType } from '../util/token-model';
 
 export interface IOrderBy extends IBaseClass {
-    column: string;
-    direction: string;
+  column: string;
+  direction: string;
 }
 
 export class OrderBy extends BaseClass implements IOrderBy {
-    column: string;
-    direction: string;
+  column: string;
+  direction: string;
 
-    constructor(
-        column: string,
-        direction: string
-    ) {
-        super('OrderBy');
+  constructor(column: string, direction: string) {
+    super('OrderBy');
 
-        this.column = column;
-        this.direction = direction;
-    }
+    this.column = column;
+    this.direction = direction;
+  }
 }
 
 export default class OrderByReader {
-    static read(input: string): Array<IOrderBy> {
-        const orderBy: Array<IOrderBy> = [];
-        const stream = new TokenStream(StringTokenizer.tokens(input));
-        
-        while (!stream.EOS) {
-            const column = stream.currentTokenValue;
-            stream.next();
+  static read(input: string): Array<IOrderBy> {
+    const orderBy: Array<IOrderBy> = [];
+    const stream = new TokenStream(StringTokenizer.tokens(input));
 
-            stream.ascertainAndMoveNext(TokenType.EQUALS);
-            
-            const direction = stream.currentTokenValue;
-            stream.next();
+    while (!stream.EOS) {
+      const column = stream.currentTokenValue;
+      stream.next();
 
-            if (stream.currentTokenIs(TokenType.COMMA))
-                stream.next();
+      stream.ascertainAndMoveNext(TokenType.EQUALS);
 
-            orderBy.push(new OrderBy(column, direction));
-        }
+      const direction = stream.currentTokenValue;
+      stream.next();
 
-        return orderBy;
+      if (stream.currentTokenIs(TokenType.COMMA)) stream.next();
+
+      orderBy.push(new OrderBy(column, direction));
     }
+
+    return orderBy;
+  }
 }

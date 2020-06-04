@@ -1,4 +1,4 @@
-import IBaseClass, { BaseClass } from "./base-class";
+import IBaseClass, { BaseClass } from './base-class';
 
 export default interface IFilterCondition extends IBaseClass {
   field: string;
@@ -22,7 +22,7 @@ export class FilterCondition extends BaseClass implements IFilterCondition {
     upperLimit: boolean | undefined,
     filter: boolean | undefined
   ) {
-    super("FilterCondition");
+    super('FilterCondition');
     this.field = field;
     this.type = type;
     this.value = value;

@@ -1,7 +1,7 @@
-import TextConstantReader from "./text-constant-reader";
-import StringHelper from "../util/string-helper";
-import IBaseClass, { BaseClass } from "../models/base-class";
-import ILangText from "../models/lang-text";
+import TextConstantReader from './text-constant-reader';
+import StringHelper from '../util/string-helper';
+import IBaseClass, { BaseClass } from '../models/base-class';
+import ILangText from '../models/lang-text';
 
 export interface IVariable extends IBaseClass {
   id: number;
@@ -40,7 +40,7 @@ export class Variable extends BaseClass implements IVariable {
     securityfiltering: string | undefined,
     textML: Array<ILangText> | undefined
   ) {
-    super("Variable");
+    super('Variable');
 
     this.id = id;
     this.name = name;
@@ -62,7 +62,7 @@ export default class VariableReader {
 
   static readMultiple(input: string): Array<IVariable> | undefined {
     let variables: Array<IVariable> | undefined = undefined;
-    input = input?.replace(/^VAR\r?\n/, "");
+    input = input?.replace(/^VAR\r?\n/, '');
     input = StringHelper.remove2SpaceIndentation(input);
     const lines = StringHelper.groupLines(input);
     for (let i = 0; i < lines.length; i++) {
@@ -90,7 +90,7 @@ export default class VariableReader {
       match[5] === undefined ? undefined : match[5] ? true : undefined;
 
     let datatype = match[6];
-    let text = match[8] || "";
+    let text = match[8] || '';
     let subType: string | number | undefined = undefined;
     let textML: Array<ILangText> | undefined = undefined;
     let securityfiltering = undefined;
@@ -106,14 +106,14 @@ export default class VariableReader {
     }
 
     switch (datatype) {
-      case "Record":
-      case "Page":
-      case "Report":
-      case "Codeunit":
-      case "Query":
-      case "XMLport":
+      case 'Record':
+      case 'Page':
+      case 'Report':
+      case 'Codeunit':
+      case 'Query':
+      case 'XMLport':
         const ID_EXPR = /(\d*) ?(.*)?/;
-        const SECURITYFILTERING_EXPR = /SECURITYFILTERING\((\w*)\)/;
+        const SECURITY_FILTERING_EXPR = /SECURITYFILTERING\((\w*)\)/;
 
         if (!ID_EXPR.test(text)) throw new Error(`Invalid variable: ${input}`);
 
@@ -121,36 +121,36 @@ export default class VariableReader {
         if (!match) throw new Error(`Invalid variable: ${input}`);
 
         subType = Number(match[1]);
-        text = match[2] || "";
+        text = match[2] || '';
 
         if (
-          (datatype == "Record" || datatype == "Query") &&
-          SECURITYFILTERING_EXPR.test(text)
+          (datatype === 'Record' || datatype === 'Query') &&
+          SECURITY_FILTERING_EXPR.test(text)
         ) {
-          const match2 = SECURITYFILTERING_EXPR.exec(text);
+          const match2 = SECURITY_FILTERING_EXPR.exec(text);
           if (!match2) throw new Error(`Invalid variable: ${input}`);
 
           securityfiltering = match2[1];
-          text = "";
+          text = '';
         }
 
         break;
     }
 
     let inDataSet = undefined;
-    if (text == "INDATASET") {
+    if (text === 'INDATASET') {
       inDataSet = true;
-      text = "";
+      text = '';
     }
 
     if (text) {
       switch (datatype) {
-        case "TextConst":
+        case 'TextConst':
           textML = TextConstantReader.read(text);
           break;
-        case "DotNet":
-        case "Automation":
-        case "OCX":
+        case 'DotNet':
+        case 'Automation':
+        case 'OCX':
           subType = StringHelper.escapeDoubleQuoteString(text);
           break;
         default:

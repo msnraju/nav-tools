@@ -37,5 +37,8 @@
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.3"
+  },
+  "dependencies": {
+    "n-readlines": "^1.0.0"
   }
 }

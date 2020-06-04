@@ -1,7 +1,7 @@
-import PropertyReader from "./property-reader";
-import PropertyMap, { IProperty } from "./property-map";
-import StringHelper from "../util/string-helper";
-import IBaseClass, { BaseClass } from "../models/base-class";
+import PropertyReader from './property-reader';
+import PropertyMap, { IProperty } from './property-map';
+import StringHelper from '../util/string-helper';
+import IBaseClass, { BaseClass } from '../models/base-class';
 
 export interface IMenuNode extends IBaseClass {
   type: string;
@@ -19,7 +19,7 @@ export class MenuNode extends BaseClass implements IMenuNode {
     id: string,
     properties: Array<IProperty> | undefined
   ) {
-    super("MenuNode");
+    super('MenuNode');
     this.type = type;
     this.id = id;
     this.properties = properties;
@@ -29,9 +29,9 @@ export class MenuNode extends BaseClass implements IMenuNode {
 export default class MenuSuiteReader {
   static readSegment(name: string, input: string) {
     switch (name) {
-      case "PROPERTIES":
+      case 'PROPERTIES':
         return PropertyReader.read(input, PropertyMap.menuSuiteProperties);
-      case "MENUNODES":
+      case 'MENUNODES':
         return this.readMenuNodes(input);
       default:
         throw new TypeError(`Report's segment type '${name}' not implemented.`);
@@ -63,8 +63,8 @@ export default class MenuSuiteReader {
     const id = StringHelper.unescapeBrackets(match[2]);
 
     let properties = match[4];
-    properties = properties.replace(/^[ ]{59}/, "");
-    properties = properties.replace(/\r?\n[ ]{59}/g, "\r\n");
+    properties = properties.replace(/^[ ]{59}/, '');
+    properties = properties.replace(/\r?\n[ ]{59}/g, '\r\n');
     const props = PropertyReader.read(properties, PropertyMap.menuNode);
 
     return new MenuNode(type, id, props);

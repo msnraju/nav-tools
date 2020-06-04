@@ -1,16 +1,16 @@
-import StringHelper from "../util/string-helper";
-import TableReader from "./table-reader";
-import PropertyReader from "./property-reader";
-import PropertyMap from "./property-map";
-import ReportReader from "./report-reader";
-import PageReader from "./page-reader";
-import XMLportReader from "./xml-port-reader";
-import QueryReader from "./query-reader";
-import MenuSuiteReader from "./menu-suite-reader";
-import CodeunitReader from "./code-unit-reader";
-import CodeSegmentReader from "./code-segment-reader";
-import StringBuffer from "../util/string-buffer";
-import LineByLine from "n-readlines";
+import StringHelper from '../util/string-helper';
+import TableReader from './table-reader';
+import PropertyReader from './property-reader';
+import PropertyMap from './property-map';
+import ReportReader from './report-reader';
+import PageReader from './page-reader';
+import XMLportReader from './xml-port-reader';
+import QueryReader from './query-reader';
+import MenuSuiteReader from './menu-suite-reader';
+import CodeunitReader from './code-unit-reader';
+import CodeSegmentReader from './code-segment-reader';
+import StringBuffer from '../util/string-buffer';
+import LineByLine from 'n-readlines';
 
 export interface IAppObject {
   type: string;
@@ -24,7 +24,7 @@ export interface ISegment {
   body: any;
 }
 
-type ReadObjectsCallback = (object: IAppObject, content: string) => void; 
+type ReadObjectsCallback = (object: IAppObject, content: string) => void;
 
 export default class ObjectReader {
   static readObjects(
@@ -38,28 +38,28 @@ export default class ObjectReader {
     let buffer: Buffer | false;
     let objectBuffer: StringBuffer | null = null;
     const liner = new LineByLine(objectFile);
-    let stage: "CLOSED" | "OPEN" = "CLOSED";
+    let stage: 'CLOSED' | 'OPEN' = 'CLOSED';
 
     while ((buffer = liner.next())) {
-      const line = buffer.toString("utf-8");
+      const line = buffer.toString('utf-8');
 
       switch (stage) {
-        case "CLOSED":
-          if (line[0] == "\r") {
+        case 'CLOSED':
+          if (line[0] === '\r') {
             continue;
           }
 
           const match = headerExpr.exec(line);
           if (!match) {
-            throw `Invalid file header: '${line}'`;
+            throw new Error(`Invalid file header: '${line}'`);
           }
 
-          stage = "OPEN";
+          stage = 'OPEN';
           objectBuffer = new StringBuffer();
           break;
-        case "OPEN":
-          if (line.substring(0, 1) == "}") {
-            stage = "CLOSED";
+        case 'OPEN':
+          if (line.substring(0, 1) === '}') {
+            stage = 'CLOSED';
           }
 
           break;
@@ -68,7 +68,7 @@ export default class ObjectReader {
       if (objectBuffer) {
         objectBuffer.append(line);
 
-        if (stage == "CLOSED") {
+        if (stage === 'CLOSED') {
           const content = objectBuffer.toString();
           const appObject = this.readObject(content);
           objects.push(appObject);
@@ -89,11 +89,11 @@ export default class ObjectReader {
     const OBJECT_HEADER_BODY_EXPR = /(.*)(\r?\n\{)((\r?\n.*)*?)(\r?\n\})/;
 
     if (!OBJECT_HEADER_BODY_EXPR.test(content)) {
-      throw "err";
+      throw new Error('object header error');
     }
 
     let match = OBJECT_HEADER_BODY_EXPR.exec(content);
-    if (!match) throw "err";
+    if (!match) throw new Error('object header error');
 
     const appObject = this.getObjectHeader(match[1]);
     console.log(
@@ -102,7 +102,7 @@ export default class ObjectReader {
 
     const body = match[3];
     const segments = ObjectReader.splitSegments(appObject.type, body);
-    segments.forEach((segment) => {
+    segments.forEach(segment => {
       appObject[segment.name] = segment.body;
     });
 
@@ -114,7 +114,7 @@ export default class ObjectReader {
   }
 
   static splitSegments(objectType: string, input: string) {
-    const SEGMENTS_HEADER_BODY_EXPR = /\r?\n  \}|\r?\n  \{/;
+    const SEGMENTS_HEADER_BODY_EXPR = /\r?\n {2}\}|\r?\n {2}\{/;
 
     const bodySplit = input.split(SEGMENTS_HEADER_BODY_EXPR);
     const segments = [];
@@ -124,10 +124,10 @@ export default class ObjectReader {
       const name = bodySplit[i].trim();
       const text = bodySplit[i + 1];
       switch (name) {
-        case "OBJECT-PROPERTIES":
+        case 'OBJECT-PROPERTIES':
           segment = PropertyReader.read(text, PropertyMap.objectProperties);
           break;
-        case "CODE":
+        case 'CODE':
           segment = CodeSegmentReader.read(text);
           break;
         default:
@@ -142,19 +142,19 @@ export default class ObjectReader {
 
   private static readSegment(objectType: string, name: string, input: string) {
     switch (objectType) {
-      case "Table":
+      case 'Table':
         return TableReader.readSegment(name, input);
-      case "Report":
+      case 'Report':
         return ReportReader.readSegment(name, input);
-      case "Page":
+      case 'Page':
         return PageReader.readSegment(name, input);
-      case "XMLport":
+      case 'XMLport':
         return XMLportReader.readSegment(name, input);
-      case "Query":
+      case 'Query':
         return QueryReader.readSegment(name, input);
-      case "MenuSuite":
+      case 'MenuSuite':
         return MenuSuiteReader.readSegment(name, input);
-      case "Codeunit":
+      case 'Codeunit':
         return CodeunitReader.readSegment(name, input);
       default:
         throw new TypeError(

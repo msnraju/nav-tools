@@ -1,16 +1,16 @@
-import { IPropertyMap, Property, IProperty } from "./property-map";
-import StringHelper from "../util/string-helper";
-import { PropertyType } from "./property-type";
-import TextMLReader from "./text-ml-reader";
-import TableRelationReader from "./table-relation-reader";
-import CalcFormulaReader from "./calc-formula-reader";
-import PermissionReader from "./permission-reader";
-import TableViewReader from "./table-view-reader";
-import PageReader from "./page-reader";
-import TableFiltersReader from "./table-filter-reader";
-import DataItemLinkReader from "./data-item-link-reader";
-import OrderByReader from "./order-by-reader";
-import TriggerReader from "./trigger-reader";
+import { IPropertyMap, Property, IProperty } from './property-map';
+import StringHelper from '../util/string-helper';
+import { PropertyType } from './property-type';
+import TextMLReader from './text-ml-reader';
+import TableRelationReader from './table-relation-reader';
+import CalcFormulaReader from './calc-formula-reader';
+import PermissionReader from './permission-reader';
+import TableViewReader from './table-view-reader';
+import PageReader from './page-reader';
+import TableFiltersReader from './table-filter-reader';
+import DataItemLinkReader from './data-item-link-reader';
+import OrderByReader from './order-by-reader';
+import TriggerReader from './trigger-reader';
 
 export default class PropertyReader {
   static read(
@@ -34,9 +34,9 @@ export default class PropertyReader {
       const name = match[1];
       let value: string = match[2];
 
-      if (value.endsWith(";")) value = value.slice(0, -1);
+      if (value.endsWith(';')) value = value.slice(0, -1);
 
-      if (name == "ActionList" && value == "ACTIONS") {
+      if (name === 'ActionList' && value === 'ACTIONS') {
         value += `\r\n${lines[++i]}\r\n${lines[++i]}`;
       }
 
@@ -52,7 +52,7 @@ export default class PropertyReader {
     value: string,
     maps: Array<IPropertyMap>
   ): IProperty {
-    const propType = maps.find((p) => p.name == name);
+    const propType = maps.find(p => p.name === name);
     if (!propType) throw new TypeError(`Property map not found for '${name}'`);
 
     switch (propType.type) {

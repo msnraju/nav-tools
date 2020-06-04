@@ -1,5 +1,5 @@
-import IBaseClass, { BaseClass } from "./base-class";
-import { IProperty } from "../cal/property-map";
+import IBaseClass, { BaseClass } from './base-class';
+import { IProperty } from '../cal/property-map';
 
 export default interface IReportDataItem extends IBaseClass {
   id: number;
@@ -23,7 +23,7 @@ export class ReportDataItem extends BaseClass implements IReportDataItem {
     indentation: number,
     properties: Array<IProperty> | undefined
   ) {
-    super("ReportDataItem");
+    super('ReportDataItem');
     this.id = id;
     this.dataType = dataType;
     this.name = name;

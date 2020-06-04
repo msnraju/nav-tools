@@ -1,65 +1,68 @@
-import StringHelper from "../util/string-helper";
+import StringHelper from '../util/string-helper';
 
 export default class FieldListReader {
-    static read(input: string): string[] {
-        const fields = [];
-        const tokens = this.tokenize(input);
-        for (let i = 0; i < tokens.length; i += 2) {
-            const fieldName = tokens[i].value;
-            fields.push(fieldName);
-        }
-
-        return fields;
+  static read(input: string): string[] {
+    const fields = [];
+    const tokens = this.tokenize(input);
+    for (let i = 0; i < tokens.length; i += 2) {
+      const fieldName = tokens[i].value;
+      fields.push(fieldName);
     }
 
-    private static tokenize(input: string) {
-        input = StringHelper.unescapeBrackets(input);
+    return fields;
+  }
 
-        const tokens = [];
-        let current = 0;
-        while (current < input.length) {
-            let char = input[current];
+  private static tokenize(input: string) {
+    input = StringHelper.unescapeBrackets(input);
 
-            const COMMA = /,/;
-            if (COMMA.test(char)) {
-                tokens.push({ type: 'COMMA', value: char });
-                char = input[++current];
+    const tokens = [];
+    let current = 0;
+    while (current < input.length) {
+      let char = input[current];
 
-                continue;
-            }
+      const COMMA = /,/;
+      if (COMMA.test(char)) {
+        tokens.push({ type: 'COMMA', value: char });
+        char = input[++current];
 
-            if (char == '"') {
-                char = input[++current];
-                let nextChar = current + 1 < input.length ? input[current + 1] : '';
-                let value = '';
-                while ((current < input.length) && (char != '"' || (char == '"' && nextChar == '"'))) {
-                    value += char;
-                    if (char == '"' && nextChar == '"') current++;
+        continue;
+      }
 
-                    char = input[++current];
-                    nextChar = current + 1 < input.length ? input[current + 1] : '';
-                }
+      if (char === '"') {
+        char = input[++current];
+        let nextChar = current + 1 < input.length ? input[current + 1] : '';
+        let value = '';
+        while (
+          current < input.length &&
+          (char !== '"' || (char === '"' && nextChar === '"'))
+        ) {
+          value += char;
+          if (char === '"' && nextChar === '"') current++;
 
-                tokens.push({ type: 'STRING', value: value });
-                current++;
-                continue;
-            }
-
-            const LETTERS = /[^,]/i;
-            if (LETTERS.test(char)) {
-                let value = '';
-                while (current < input.length && LETTERS.test(char)) {
-                    value += char;
-                    char = input[++current];
-                }
-
-                tokens.push({ type: 'LETTERS', value: value });
-                continue;
-            }
-
-            throw new TypeError(`Invalid character ${char}`);
+          char = input[++current];
+          nextChar = current + 1 < input.length ? input[current + 1] : '';
         }
 
-        return tokens;
+        tokens.push({ type: 'STRING', value: value });
+        current++;
+        continue;
+      }
+
+      const LETTERS = /[^,]/i;
+      if (LETTERS.test(char)) {
+        let value = '';
+        while (current < input.length && LETTERS.test(char)) {
+          value += char;
+          char = input[++current];
+        }
+
+        tokens.push({ type: 'LETTERS', value: value });
+        continue;
+      }
+
+      throw new TypeError(`Invalid character ${char}`);
     }
+
+    return tokens;
+  }
 }

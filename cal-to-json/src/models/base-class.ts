@@ -1,11 +1,11 @@
 export default interface IBaseClass {
-    className: string;
+  className: string;
 }
 
 export abstract class BaseClass implements IBaseClass {
-    className: string;
+  className: string;
 
-    constructor(className: string) {
-        this.className = className;
-    }
+  constructor(className: string) {
+    this.className = className;
+  }
 }
